@@ -17,7 +17,7 @@ app Annnimate {
         "<meta name='twitter:card' content='summary_large_image' />",
         // TODO: You can put your analytics scripts below (https://docs.opensaas.sh/guides/analytics/):
         //   If you are going with Google Analytics:
-        "<!-- Google tag (gtag.js) --><script>...</script>"  // for both production and development
+        // <!-- Google tag (gtag.js) --><script></script>  // for both production and development
   ],
 
   // 🔐 Auth out of the box! https://wasp-lang.dev/docs/auth/overview
