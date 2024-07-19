@@ -12,23 +12,41 @@ import DivderStar from '../static/divider-star.svg?react'
 import DottedLine from '../static/dotted-line.svg?react'
 import PlaceholderHigh from '../static/placeholder_high.jpg'
 import openSaasBanner from '../static/open-saas-banner.png'
-import {
-  features,
-  navigation,
-  faqs,
-  footerNavigation,
-  testimonials,
-} from './contentSections'
+import { navigation } from './contentSections'
 import DropdownUser from '../components/DropdownUser'
 import { DOCS_URL } from '../../shared/constants'
 import { UserMenuItems } from '../components/UserMenuItems'
 import DarkModeSwitcher from '../admin/components/DarkModeSwitcher'
 import Button from '../components/Button'
+import useFetch from '../hooks/useFetch'
+import { StrapiImage } from '../type'
+
+type Testimonial = {
+  id: string
+  attributes: TestimonialAttributes
+}
+
+type TestimonialAttributes = {
+  Name: string
+  Description: string
+  Role: string
+  Image: StrapiImage
+}
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const { data: user, isLoading: isUserLoading } = useAuth()
+
+  const { loading, error, data } = useFetch<Testimonial[]>(
+    'http://localhost:1337/api/testimonials/?populate=*',
+    'b78a991e84ccb1e35a01980224ee265595a274502c7551fc579fb2126850c2ef6a9266327cf463a5977eb59987f8776d9cc5327f4d9094735410d6c0592dd88e0e098cb6ed02b45f1063a58d0d30e227c78dde82e41ddd17a5d183943635e2bbf1b700aec8369b1aa9c828a82159f0b734b9f296659ad9edcd6ad26dc1f04c1f',
+  )
+
+  console.log(data && data)
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
 
   const NavLogo = () => (
     <img className="h-8 w-8" src={logo} alt="Your SaaS App" />
@@ -405,10 +423,40 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section className="container py-25">
-        <h2 className="text-title-xxl font-light font-clashGrotesk mb-5">
+      <section className="py-25">
+        <h2 className="container max-w-screen-2xl text-title-xxl font-light font-clashGrotesk mb-5">
           What industry leader have to say
         </h2>
+        <div className="container max-w-screen-2xl rounded-3xl py-10 overflow-hidden bg-gray-300 grid grid-rows-3 grid-cols-3 gap-10 grid-flow-row-dense">
+          {data &&
+            data.map((testimonial: Testimonial) => {
+              return (
+                <div
+                  key={testimonial.id}
+                  className="
+                  gray-card p-7 bg-secondary [&:nth-child(2)]:relative [&:nth-child(2)]:top-15 [&:nth-child(5)]:relative [&:nth-child(5)]:top-15 [&:nth-child(8)]:relative [&:nth-child(8)]:top-15 flex flex-col gap-5"
+                >
+                  <div className="flex justify-start items-center gap-2">
+                    <img
+                      className="w-12 h-12 rounded-full"
+                      src={`http://localhost:1337${testimonial.attributes.Image.data.attributes.url}`}
+                    />
+                    <div className="flex flex-col">
+                      <p>{testimonial.attributes.Name}</p>
+                      <p className="text-gray-500 text-sm">
+                        {testimonial.attributes.Role}
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">
+                      {testimonial.attributes.Description}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+        </div>
       </section>
     </div>
   )

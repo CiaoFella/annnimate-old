@@ -5,10 +5,6 @@ import AppNavBar from './components/AppNavBar'
 import { useMemo, useEffect, ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 
-/**
- * use this component to wrap all child components
- * this is useful for templates, themes, and context
- */
 export default function App({ children }: { children: ReactNode }) {
   const location = useLocation()
   const { data: user } = useAuth()
@@ -46,19 +42,17 @@ export default function App({ children }: { children: ReactNode }) {
   }, [location])
 
   return (
-    <>
-      <div className="min-h-screen dark:text-white dark:bg-boxdark-2">
-        {isAdminDashboard ? (
-          <>{children}</>
-        ) : (
-          <>
-            {shouldDisplayAppNavBar && <AppNavBar />}
-            <div className="bg-secondary font-satoshi text-primary dark:text-secondary dark:bg-primary">
-              {children}
-            </div>
-          </>
-        )}
-      </div>
-    </>
+    <div className="min-h-screen dark:text-white dark:bg-boxdark-2">
+      {isAdminDashboard ? (
+        <>{children}</>
+      ) : (
+        <>
+          {shouldDisplayAppNavBar && <AppNavBar />}
+          <div className="bg-secondary font-satoshi text-primary dark:text-secondary dark:bg-primary">
+            {children}
+          </div>
+        </>
+      )}
+    </div>
   )
 }

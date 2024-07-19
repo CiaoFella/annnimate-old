@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "animations",
+  "info": {
+    "singularName": "animation",
+    "pluralName": "animations",
+    "displayName": "Animations",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "Javascript_Code": {
+      "type": "json",
+      "required": true
+    },
+    "Webflow_Code": {
+      "type": "json",
+      "required": true
+    },
+    "Animation_Duration": {
+      "type": "decimal"
+    },
+    "Animation_Delay": {
+      "type": "decimal"
+    },
+    "Animation_Stagger": {
+      "type": "float"
+    },
+    "Animation_Ease": {
+      "type": "string"
+    },
+    "Is_New": {
+      "type": "boolean"
+    },
+    "Is_Hot": {
+      "type": "boolean"
+    }
+  }
+}

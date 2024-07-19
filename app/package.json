@@ -1,6 +1,7 @@
 {
   "name": "opensaas",
   "dependencies": {
+    "@apollo/client": "^3.10.8",
     "@aws-sdk/client-s3": "^3.523.0",
     "@aws-sdk/s3-request-presigner": "^3.523.0",
     "@faker-js/faker": "8.3.1",
@@ -11,6 +12,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "apexcharts": "^3.41.0",
     "clsx": "^2.1.0",
+    "graphql": "^16.9.0",
     "headlessui": "^0.0.0",
     "node-fetch": "3.3.0",
     "openai": "^4.24.1",
