@@ -1,5 +1,11 @@
 import { test, expect, type Page } from '@playwright/test';
-import { signUserUp, logUserIn, createRandomUser, makeStripePayment, type User} from './utils';
+import {
+  signUserUp,
+  logUserIn,
+  createRandomUser,
+  makeStripePayment,
+  type User,
+} from './utils';
 
 let page: Page;
 let testUser: User;
@@ -38,13 +44,22 @@ test('User can make 3 AI schedule generations', async () => {
   await expect(page.getByText(task2)).toBeVisible();
 
   for (let i = 0; i < 3; i++) {
-    const generateScheduleButton = page.getByRole('button', { name: 'Generate Schedule' });
+    const generateScheduleButton = page.getByRole('button', {
+      name: 'Generate Schedule',
+    });
     await expect(generateScheduleButton).toBeVisible();
 
     await Promise.all([
-      page.waitForRequest((req) => req.url().includes('operations/generate-gpt-response') && req.method() === 'POST'),
+      page.waitForRequest(
+        (req) =>
+          req.url().includes('operations/generate-gpt-response') &&
+          req.method() === 'POST'
+      ),
       page.waitForResponse((response) => {
-        return response.url().includes('/operations/generate-gpt-response') && response.status() === 200;
+        return (
+          response.url().includes('/operations/generate-gpt-response') &&
+          response.status() === 200
+        );
       }),
       // We already started waiting before we perform the click that triggers the API calls. So now we just perform the click
       generateScheduleButton.click(),
@@ -65,15 +80,24 @@ test('AI schedule generation fails on 4th attempt', async () => {
 
   await page.reload();
 
-  const generateScheduleButton = page.getByRole('button', { name: 'Generate Schedule' });
+  const generateScheduleButton = page.getByRole('button', {
+    name: 'Generate Schedule',
+  });
   await expect(generateScheduleButton).toBeVisible();
 
   await Promise.all([
-    page.waitForRequest((req) => req.url().includes('operations/generate-gpt-response') && req.method() === 'POST'),
+    page.waitForRequest(
+      (req) =>
+        req.url().includes('operations/generate-gpt-response') &&
+        req.method() === 'POST'
+    ),
 
     page.waitForResponse((response) => {
       // expect the response to be 402 "PAYMENT_REQUIRED"
-      return response.url().includes('/operations/generate-gpt-response') && response.status() === 402;
+      return (
+        response.url().includes('/operations/generate-gpt-response') &&
+        response.status() === 402
+      );
     }),
     // We already started waiting before we perform the click that triggers the API calls. So now we just perform the click
     generateScheduleButton.click(),
@@ -90,23 +114,32 @@ test('AI schedule generation fails on 4th attempt', async () => {
 });
 
 test('Make test payment with Stripe', async () => {
-  const PLAN_NAME = 'Hobby';
+  const PLAN_NAME = 'Annual';
   await makeStripePayment({ test, page, planName: PLAN_NAME });
 });
 
 test('User should be able to generate another schedule after payment', async () => {
   await page.goto('/demo-app');
 
-  const generateScheduleButton = page.getByRole('button', { name: 'Generate Schedule' });
+  const generateScheduleButton = page.getByRole('button', {
+    name: 'Generate Schedule',
+  });
   await expect(generateScheduleButton).toBeVisible();
 
   await Promise.all([
     page
-      .waitForRequest((req) => req.url().includes('operations/generate-gpt-response') && req.method() === 'POST')
+      .waitForRequest(
+        (req) =>
+          req.url().includes('operations/generate-gpt-response') &&
+          req.method() === 'POST'
+      )
       .catch((err) => console.error(err.message)),
     page
       .waitForResponse((response) => {
-        if (response.url().includes('/operations/generate-gpt-response') && response.status() === 200) {
+        if (
+          response.url().includes('/operations/generate-gpt-response') &&
+          response.status() === 200
+        ) {
           return true;
         }
         return false;

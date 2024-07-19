@@ -9,26 +9,19 @@ import { z } from 'zod'
 
 export const tiers = [
   {
-    name: 'Hobby',
-    id: TierIds.HOBBY,
-    price: '$9.99',
-    description: 'All you need to get started',
+    name: 'Annual',
+    id: TierIds.ANNUAL,
+    price: '$49.99',
+    description: 'Annual Access',
     features: ['Limited monthly usage', 'Basic support'],
   },
   {
-    name: 'Pro',
-    id: TierIds.PRO,
-    price: '$19.99',
-    description: 'Our most popular plan',
-    features: ['Unlimited monthly usage', 'Priority customer support'],
-    bestDeal: true,
-  },
-  {
-    name: '10 Credits',
-    id: TierIds.CREDITS,
-    price: '$9.99',
-    description: 'One-time purchase of 10 credits for your account',
+    name: 'Lifetime',
+    id: TierIds.LIFETIME,
+    price: '$69.99',
+    description: 'Lifetime access',
     features: ['Use credits for e.g. OpenAI API calls', 'No expiration date'],
+    bestDeal: true,
   },
 ]
 
@@ -133,7 +126,7 @@ const PricingPage = () => {
                     {tier.price}
                   </span>
                   <span className="text-sm font-semibold leading-6 text-gray-600 dark:text-white">
-                    {tier.id !== TierIds.CREDITS && '/month'}
+                    {tier.id !== TierIds.LIFETIME && '/month'}
                   </span>
                 </p>
                 <ul

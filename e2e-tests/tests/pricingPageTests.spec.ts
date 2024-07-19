@@ -1,5 +1,11 @@
 import { test, expect, type Page } from '@playwright/test';
-import { signUserUp, logUserIn, createRandomUser, makeStripePayment, type User } from './utils';
+import {
+  signUserUp,
+  logUserIn,
+  createRandomUser,
+  makeStripePayment,
+  type User,
+} from './utils';
 
 let page: Page;
 let testUser: User;
@@ -24,7 +30,9 @@ test.afterAll(async () => {
 test('User should see Log In to Buy Plan button', async () => {
   await page.goto('/pricing');
   // There are three tiers on the page, so we want to retrieve the first of the three buttons
-  const buyPlanButton = page.getByRole('button', { name: 'Log in to buy plan' }).first();
+  const buyPlanButton = page
+    .getByRole('button', { name: 'Log in to buy plan' })
+    .first();
   await expect(buyPlanButton).toBeVisible();
   await expect(buyPlanButton).toBeEnabled();
   await buyPlanButton.click();
@@ -33,18 +41,20 @@ test('User should see Log In to Buy Plan button', async () => {
 });
 
 test('User should see the Buy Plan button before payment', async () => {
-  // We only need to log the user in once since the tests are running sequentially 
+  // We only need to log the user in once since the tests are running sequentially
   // and the same page is being shared between all the tests.
   await logNewUserIn();
   await page.goto('/pricing');
   // There are three tiers on the page, so we want to retrieve the first of the three buttons
-  const manageSubscriptionButton = page.getByRole('button', { name: 'Buy plan' }).first();
+  const manageSubscriptionButton = page
+    .getByRole('button', { name: 'Buy plan' })
+    .first();
   await expect(manageSubscriptionButton).toBeVisible();
   await expect(manageSubscriptionButton).toBeEnabled();
 });
 
 test('Make test payment with Stripe', async () => {
-  const PLAN_NAME = 'Hobby';
+  const PLAN_NAME = 'Annual';
   await page.goto('/');
   await makeStripePayment({ test, page, planName: PLAN_NAME });
 });
@@ -52,7 +62,9 @@ test('Make test payment with Stripe', async () => {
 test('User should see the Manage Subscription button after payment', async () => {
   await page.goto('/pricing');
   // There are three tiers on the page, so we want to retrieve the first of the three buttons
-  const manageSubscriptionButton = page.getByRole('button', { name: 'Manage Subscription' }).first();
+  const manageSubscriptionButton = page
+    .getByRole('button', { name: 'Manage Subscription' })
+    .first();
   await expect(manageSubscriptionButton).toBeVisible();
   await expect(manageSubscriptionButton).toBeEnabled();
   await manageSubscriptionButton.click();

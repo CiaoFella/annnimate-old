@@ -44,12 +44,10 @@ export const stripePayment: StripePayment<string, StripePaymentResult> = async (
   }
 
   let priceId
-  if (tier === TierIds.HOBBY) {
-    priceId = process.env.HOBBY_SUBSCRIPTION_PRICE_ID!
-  } else if (tier === TierIds.PRO) {
-    priceId = process.env.PRO_SUBSCRIPTION_PRICE_ID!
-  } else if (tier === TierIds.CREDITS) {
-    priceId = process.env.CREDITS_PRICE_ID!
+  if (tier === TierIds.ANNUAL) {
+    priceId = process.env.ANNUAL_ACCESS_PRICE_ID!
+  } else if (tier === TierIds.LIFETIME) {
+    priceId = process.env.LIFETIME_ACCESS_PRICE_ID!
   } else {
     throw new HttpError(404, 'Invalid tier')
   }
@@ -64,7 +62,7 @@ export const stripePayment: StripePayment<string, StripePaymentResult> = async (
     session = await createStripeCheckoutSession({
       priceId,
       customerId: customer.id,
-      mode: tier === TierIds.CREDITS ? 'payment' : 'subscription',
+      mode: tier === TierIds.LIFETIME ? 'payment' : 'subscription',
     })
     if (!session) {
       throw new HttpError(500, 'Error creating session')

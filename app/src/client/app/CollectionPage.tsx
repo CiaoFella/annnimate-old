@@ -4,7 +4,7 @@ import { logout } from 'wasp/client/auth'
 import { TierIds } from '../../shared/constants'
 import { z } from 'zod'
 
-export default function AccountPage({ user }: { user: User }) {
+export default function CollectionPage({ user }: { user: User }) {
   return (
     <div className="mt-10 px-6">
       <div className="overflow-hidden border border-gray-900/10 shadow-lg sm:rounded-lg lg:m-8 dark:border-gray-100/10">

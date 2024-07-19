@@ -56,34 +56,33 @@ export const stripeWebhook: StripeWebhook = async (
        * see: https://docs.opensaas.sh/guides/stripe-integration/
        */
       if (
-        line_items?.data[0]?.price?.id ===
-        process.env.HOBBY_SUBSCRIPTION_PRICE_ID
+        line_items?.data[0]?.price?.id === process.env.ANNUAL_ACCESS_PRICE_ID
       ) {
-        console.log('Hobby subscription purchased')
+        console.log('Annual subscription purchased')
         await context.entities.User.updateMany({
           where: {
             stripeId: userStripeId,
           },
           data: {
             datePaid: new Date(),
-            subscriptionTier: TierIds.HOBBY,
+            subscriptionTier: TierIds.ANNUAL,
           },
         })
       } else if (
-        line_items?.data[0]?.price?.id === process.env.PRO_SUBSCRIPTION_PRICE_ID
+        line_items?.data[0]?.price?.id === process.env.LIFETIME_ACCESS_PRICE_ID
       ) {
-        console.log('Pro subscription purchased')
+        console.log('Lifetime subscription purchased')
         await context.entities.User.updateMany({
           where: {
             stripeId: userStripeId,
           },
           data: {
             datePaid: new Date(),
-            subscriptionTier: TierIds.PRO,
+            subscriptionTier: TierIds.LIFETIME,
           },
         })
       } else if (
-        line_items?.data[0]?.price?.id === process.env.CREDITS_PRICE_ID
+        line_items?.data[0]?.price?.id === process.env.LIFETIME_ACCESS_PRICE_ID
       ) {
         console.log('Credits purchased')
         await context.entities.User.updateMany({

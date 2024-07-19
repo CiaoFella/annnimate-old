@@ -28,8 +28,8 @@ app Annnimate {
       //   (RequestPasswordReset(Route|Page), PasswordReset(Route|Page), EmailVerification(Route|Page))
       email: {
         fromField: {
-          name: "Open SaaS App",
-          email: "me@example.com"
+          name: "Annnimate",
+          email: "ciao@julianfella.de"
         },
         emailVerification: {
           clientRoute: EmailVerificationRoute,
@@ -42,10 +42,10 @@ app Annnimate {
         userSignupFields: import { getEmailUserFields } from "@src/server/auth/setUsername.js",
       },
       // Uncomment to enable Google Auth (check https://wasp-lang.dev/docs/auth/social-auth/google for setup instructions):
-      // google: { // Guide for setting up Auth via Google
-      //   userSignupFields: import { getGoogleUserFields } from "@src/server/auth/setUsername.js",
-      //   configFn: import { getGoogleAuthConfig } from "@src/server/auth/setUsername.js",
-      // },
+      google: { // Guide for setting up Auth via Google
+        userSignupFields: import { getGoogleUserFields } from "@src/server/auth/setUsername.js",
+        configFn: import { getGoogleAuthConfig } from "@src/server/auth/setUsername.js",
+      }
       // Uncomment to enable GitHub Auth (check https://wasp-lang.dev/docs/auth/social-auth/github for setup instructions):
       // gitHub: {
       //   userSignupFields: import { getGitHubUserFields } from "@src/server/auth/setUsername.js",
@@ -53,7 +53,7 @@ app Annnimate {
       // },
     },
     onAuthFailedRedirectTo: "/login",
-    onAuthSucceededRedirectTo: "/demo-app",
+    onAuthSucceededRedirectTo: "/collection",
   },
 
   db: {
@@ -246,6 +246,12 @@ route AccountRoute { path: "/account", to: AccountPage }
 page AccountPage {
   authRequired: true,
   component: import Account from "@src/client/app/AccountPage"
+}
+
+route CollectionRoute { path: "/collection", to: CollectionPage }
+page CollectionPage {
+  authRequired: true,
+  component: import CollectionPage from "@src/client/app/CollectionPage"
 }
 
 route CheckoutRoute { path: "/checkout", to: CheckoutPage }
